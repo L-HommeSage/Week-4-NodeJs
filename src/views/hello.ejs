@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include partials/head %>
+</head>
+
+<body class="container">
+    <div class="myContainer">
+        <div class="wrapper">
+            <div class="subContainer">
+                <h3>Display all the metrics</h3>
+                <button class="btn btn-primary" id="show-metrics">
+                    Display
+                </button>
+                <div class="metrics" id="metrics1"> </div>
+            </div>
+            <div class="subContainer">
+                <h3>Display metrics of one guy</h3>
+                <input type="text" class="form-control" placeholder="Name . . ." id="id1">
+                <button class="btn btn-secondary" id="show-metric">
+                    Display
+                </button>
+                <div class="metrics" id="metrics2"></div>
+            </div>
+            <div class="subContainer">
+                <h3>Add a metric</h3>
+                <input type="text" class="form-control" placeholder="Who are you . . ." id="id2">
+                <input type="text" class="form-control" placeholder="Timestamp . . ." id="timestamp">
+                <input type="text" class="form-control" placeholder="Value . . ." id="value">
+                <button class="btn btn-warning" id="add-metric">
+                    Add
+                </button>
+                <div class="metrics" id="metrics3"></div>
+            </div>
+            <div class="subContainer">
+
+                <h3>Delete database</h3>
+                <input type="text" class="form-control" placeholder="Who are you . . ." id="id3">
+                <input type="text" class="form-control" placeholder="Which timestamp . . ." id="timestamp2">
+                <button class="btn btn-danger" id="del-metric">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#show-metrics').click((e) => {
+            e.preventDefault();
+
+            $.getJSON("/metrics", {}, (data) => {
+                const content = data.map(d => {
+                    return 'timestamp: ' + d.timestamp + ', value: ' + d.value + '<br>';
+                })
+                $('#metrics1').append(content);
+            });
+        })
+        $('#show-metric').click((e) => {
+            e.preventDefault();
+            $.getJSON('/metrics/'+ document.getElementById('id1').value, {}, (data) => {
+                const content = data.map(d => {
+                    return 'timestamp: ' + d.timestamp + ', value: ' + d.value + '<br>';
+                })
+                $('#metrics2').append(content);
+            });
+            
+        })
+        $('#add-metric').click((e) => {
+            e.preventDefault();
+            $.post('/metrics/'+document.getElementById('id2').value, { timestamp: document.getElementById("timestamp").value, value: document.getElementById("value").value })
+        })
+        $('#del-metric').click((e) => {
+            e.preventDefault();
+            $.get('/metrics/delete/'+document.getElementById('id3').value+':'+ document.getElementById('timestamp2').value,)
+        })
+    </script>
+</body>
+
+</html>

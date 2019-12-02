@@ -1,0 +1,18 @@
+.myContainer{
+
+    background-color: lightblue;
+
+}
+.wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.subContainer{
+    padding: 5px;
+    text-align: center;
+}
+.metrics
+{
+}
